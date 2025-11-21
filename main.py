@@ -1,45 +1,42 @@
 import streamlit as st
 
-st.set_page_config(page_title="MBTI 진로 추천🎯", page_icon="✨")
+st.set_page_config(page_title="MBTI 진로 추천", page_icon="🎯")
 
-# MBTI별 진로 추천 데이터
+st.title("🎯 MBTI 기반 진로 추천")
+st.write("당신의 성향에 맞는 진로 3가지를 추천해드립니다!")
+
+mbti = st.selectbox(
+    "MBTI 유형을 선택하세요 👇",
+    ["ISTJ", "ISFJ", "INFJ", "INTJ",
+     "ISTP", "ISFP", "INFP", "INTP",
+     "ESTP", "ESFP", "ENFP", "ENTP",
+     "ESTJ", "ESFJ", "ENFJ", "ENTJ"]
+)
+
 careers = {
-    "ISTJ": [
-        ("📊 회계사", "수치 분석과 정확성을 중시하는 직업으로 ISTJ의 꼼꼼함을 최대 발휘"),
-        ("⚖️ 군인", "규율과 책임감이 중요한 환경에서 뛰어난 조직력 발휘"),
-        ("🏛️ 공무원", "안정적이고 체계적인 구조를 선호하는 성향에 잘 맞는 분야")
-    ],
-    "ISFJ": [
-        ("🏥 간호사", "타인을 돕고 배려하는 능력으로 환자 케어에 강점"),
-        ("🍎 초등교사", "학생 한 명 한 명을 세심하게 돌보는 데 탁월"),
-        ("🤝 사회복지사", "현장에서 사회적 약자를 보호하고 지원")
-    ],
-    # ... 다른 MBTI 유형도 동일한 구조로 추가 ...
+    "ISTJ": ["공무원 🏛️", "회계사 📊", "데이터 분석가 📈"],
+    "ISFJ": ["간호사 🏥", "교사 👩‍🏫", "행정 사무원 🗂️"],
+    "INFJ": ["심리 상담사 🧠", "작가 ✍️", "사회 연구원 🔍"],
+    "INTJ": ["연구개발자 🔬", "전략기획가 🧩", "엔지니어 ⚙️"],
+    "ISTP": ["정비사 🔧", "파일럿 ✈️", "보안 전문가 🔐"],
+    "ISFP": ["패션 디자이너 👗", "작곡가 🎶", "일러스트레이터 🎨"],
+    "INFP": ["에디터 📝", "사회복지사 🤝", "콘텐츠 크리에이터 🎥"],
+    "INTP": ["AI 연구자 🤖", "수학자 ➗", "개발자 💻"],
+    "ESTP": ["기업가 🚀", "스포츠 트레이너 🏋️‍♂️", "세일즈 🛍️"],
+    "ESFP": ["배우 🎭", "아나운서 🎙️", "이벤트 기획자 🎉"],
+    "ENFP": ["광고기획자 📣", "작가 ✒️", "인사담당자 🧑‍💼"],
+    "ENTP": ["스타트업 창업자 🚀", "비즈니스 컨설턴트 💼", "방송인 📺"],
+    "ESTJ": ["경영관리자 📋", "프로젝트 매니저 🧱", "군 장교 🎖️"],
+    "ESFJ": ["초등교사 📚", "간호사 🩺", "조직관리자 🧩"],
+    "ENFJ": ["교육 컨설턴트 🧑‍🏫", "홍보전문가 📢", "인권운동가 ✊"],
+    "ENTJ": ["CEO 🏢", "투자분석가 💹", "국제정치 분석가 🌍"]
 }
 
-# 상세 설명 페이지 함수
-def show_details(mbti, job, desc):
-    st.header(f"{mbti} - {job}")
-    st.write(desc)
-    st.markdown("---")
-    st.button("뒤로 가기", on_click=st.session_state.pop)
+if mbti:
+    st.subheader(f"✨ {mbti} 유형 추천 진로")
+    for c in careers.get(mbti, []):
+        st.write(f"- {c}")
 
-# 메인 페이지
-st.title("✨ MBTI 진로 추천 웹 앱 ✨")
-
-selected_mbti = st.selectbox("당신의 MBTI를 선택하세요!", list(careers.keys()))
-
-if st.button("진로 추천 보기 🚀"):
-    st.session_state["selected"] = selected_mbti
-
-if "selected" in st.session_state:
-    mbti = st.session_state["selected"]
-    st.subheader(f"{mbti} 유형에게 어울리는 TOP 3 진로! 💡")
-
-    for i, (job, desc) in enumerate(careers[mbti]):
-        if st.button(f"{i+1}. {job}"):
-            st.session_state["detail"] = (mbti, job, desc)
-            
-if "detail" in st.session_state:
-    mbti, job, desc = st.session_state["detail"]
-    show_details(mbti, job, desc)
+st.markdown("—")
+st.caption("📚 참고: 16Personalities Career Paths")
+st.markdown("[16Personalities Career Paths](https://www.16personalities.com/career-paths)")
